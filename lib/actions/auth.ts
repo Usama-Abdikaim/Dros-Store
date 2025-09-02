@@ -55,11 +55,11 @@ export const signUp = async (params: AuthCredentials) => {
     .select()
     .from(users)
     .where(eq(users.email, email))
-    .limit(1);
+    .limit(1)
+    .then(result => result[0]);
 
-    if (existingUser.length > 0) {
+    if (existingUser) {
         return { success: false, error: "User already exists" };
-
     }
 
     const hashedPassword = await hash(password, 10);
